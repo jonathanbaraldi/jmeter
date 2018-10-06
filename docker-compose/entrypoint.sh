@@ -9,8 +9,9 @@ freeMem=`awk '/MemFree/ { print int($2/1024) }' /proc/meminfo`
 s=$(($freeMem/10*7))
 x=$(($freeMem/10*7))
 n=$(($freeMem/10*2))
-export JVM_ARGS=${JVM_ARGS:--XX:+UseG1GC -XX:MaxGCPauseMillis=300 -Xmn${n}m -Xms${s}m -Xmx${x}m}
-
+# export JVM_ARGS=${JVM_ARGS:--XX:+UseG1GC -XX:MaxGCPauseMillis=300 -Xmn${n}m -Xms${s}m -Xmx${x}m}
+export JVM_ARGS=${JVM_ARGS:--XX:+UseG1GC -XX:MaxGCPauseMillis=300 -Xmn${n}m -Xms512m -Xmx512m}
+# HEAP="-Xms512m -Xmx512m"
 echo "Launching JMeter ${JMETER_VERSION} Docker image on `date`"
 echo "JVM_ARGS=${JVM_ARGS}"
 echo "Container args=$@"
