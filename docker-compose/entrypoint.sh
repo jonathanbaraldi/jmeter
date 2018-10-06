@@ -10,7 +10,7 @@ s=$(($freeMem/10*7))
 x=$(($freeMem/10*7))
 n=$(($freeMem/10*2))
 # export JVM_ARGS=${JVM_ARGS:--XX:+UseG1GC -XX:MaxGCPauseMillis=300 -Xmn${n}m -Xms${s}m -Xmx${x}m}
-export JVM_ARGS=${JVM_ARGS:--XX:+UseG1GC -XX:MaxGCPauseMillis=300 -Xmn${n}m -Xms512m -Xmx512m}
+export JVM_ARGS=${JVM_ARGS:--XX:+UseG1GC -XX:MaxGCPauseMillis=300 -Xmn${n}m -Xms2048m -Xmx2048m}
 # HEAP="-Xms512m -Xmx512m"
 echo "Launching JMeter ${JMETER_VERSION} Docker image on `date`"
 echo "JVM_ARGS=${JVM_ARGS}"
