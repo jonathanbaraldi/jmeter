@@ -1,16 +1,17 @@
 version: '2'
 
+
 services:
   jmeter:
-    container_name: jmeter
-    build:
-      context: ./
-    image: iorga-group/jmeter
-    volumes:
-      - ./:/workdir
-    user: ${USER_UID}
+    #container_name: jmeter
+    image: jonathanbaraldi/jmeter:0.1
+    #build:
+    #  context: ./
+    # image: iorga-group/jmeter
+    # volumes:
+    #   - ./:/workdir
+    user: '501'
     environment:
       - JVM_ARGS
-    command: ["bash", "-c", "mkdir run${RUN_NUMBER} && jmeter ${JMETER_ARGS} -n -t ${JMX_PATH} -l run${RUN_NUMBER}/log.csv -j run${RUN_NUMBER}/jmeter.log -e -o run${RUN_NUMBER}/report"]
+    command: ["bash", "-c", "mkdir run01 && jmeter ${JMETER_ARGS} -n -t /workdir/teste2.jmx  -l run01/log.csv -j run01/jmeter.log -e -o run01/report"]
     network_mode: "host"
-

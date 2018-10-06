@@ -79,7 +79,15 @@ COPY entrypoint.sh /usr/local/bin/
 COPY teste2.jmx /workdir/teste2.jmx
 COPY teste3.csv /workdir/teste3.csv
 
-
+RUN chmod -R 777 /workdir
 WORKDIR	/workdir
 
 ENTRYPOINT ["entrypoint.sh"]
+
+
+
+
+
+# docker build -t jonathanbaraldi/jmeter:0.3 .
+
+

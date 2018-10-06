@@ -1,0 +1,89 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: logs
+  # namespace: kube-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/proxy
+  - services
+  - endpoints
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: logs
+  # namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: logs
+subjects:
+
+
+- kind: Group
+  name: system:serviceaccounts
+  apiGroup: rbac.authorization.k8s.io
+# - kind: ServiceAccount
+  # name: logs
+  # namespace: kube-system
+
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: logs
+  # namespace: whoami5
+
+
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: jmeter
+  # namespace: whoami5
+  labels:
+    allow.http: "false"
+    application: jmeter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      application: jmeter
+  template:
+    metadata:
+      labels:
+        application: jmeter
+    spec:
+      serviceAccount: logs
+      containers:
+      - name: jmeter
+        image: jonathanbaraldi/jmeter:0.3
+        env:
+        - name: JVM_ARGS
+          value: null
+        command: ["bash", "-c", "mkdir run01 && jmeter ${JMETER_ARGS} -n -t /workdir/teste2.jmx  -l run01/log.csv -j run01/jmeter.log -e -o run01/report"]
+        # user: '501'
+        securityContext:
+          privileged: true
+
+
+
+
